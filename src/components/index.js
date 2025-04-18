@@ -3,3 +3,8 @@ export { default as SubmitBtn } from './SubmitBtn.jsx';
 export { default as Header } from './Header.jsx';
 export { default as Navbar } from './Navbar.jsx';
 export { default as NavLinks } from './NavLinks.jsx';
+export { default as Hero } from './Hero.jsx';
+export { default as ErrorElement } from './ErrorElement.jsx';
+export { default as FeaturedProducts } from './FeaturedProducts.jsx';
+export { default as SectionTitle } from './SectionTitle.jsx';
+export { default as ProductsGrid } from './ProductsGrid.jsx';
