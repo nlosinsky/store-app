@@ -12,7 +12,7 @@ const layoutStates = {
 
 const ProductsContainer = () => {
   const { meta } = useLoaderData();
-  const [layout, setLayout] = useState(layoutStates.list);
+  const [layout, setLayout] = useState(layoutStates.grid);
   const totalProducts = meta.pagination.total || 0;
 
   const setActiveStyles = (pattern) => {
