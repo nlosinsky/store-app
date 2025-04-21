@@ -6,8 +6,8 @@ const Login = () => {
     <section className="h-screen grid place-items-center">
       <Form method="post" className="card w-96 p-8 bg-base-100 shadow-lg gap-y-4">
         <h4 className="text-center text-3xl font-bold">Login</h4>
-        <FormInput type="email" label="email" name="identifier" defaultValue="text@test.com" />
-        <FormInput type="password" label="password" name="password" defaultValue="secret" />
+        <FormInput type="email" label="email" name="identifier" defaultValue="text@test.com" size="lg" />
+        <FormInput type="password" label="password" name="password" defaultValue="secret" size="lg" />
 
         <div className="mt-4">
           <SubmitBtn text="Login"/>

@@ -1,8 +1,9 @@
-const FormInput = ({label, name, type, defaultValue}) => {
+const FormInput = ({label, name, type, defaultValue, size}) => {
+  const inputSize = size ? `input-${size}` : 'input-md';
   return (
     <fieldset className="fieldset">
-      <legend className="fieldset-legend capitalize">{label}</legend>
-      <input type={type} className="input" name={name} defaultValue={defaultValue} />
+      <legend className="fieldset-legend capitalize text-sm font-normal">{label}</legend>
+      <input type={type} className={`input ${inputSize}`} name={name} defaultValue={defaultValue} />
     </fieldset>
   );
 };
