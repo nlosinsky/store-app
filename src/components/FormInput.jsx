@@ -3,7 +3,7 @@ const FormInput = ({label, name, type, defaultValue, size}) => {
   return (
     <fieldset className="fieldset">
       <legend className="fieldset-legend capitalize text-sm font-normal">{label}</legend>
-      <input type={type} className={`input ${inputSize}`} name={name} defaultValue={defaultValue} />
+      <input type={type} className={`input w-full ${inputSize}`} name={name} defaultValue={defaultValue} />
     </fieldset>
   );
 };

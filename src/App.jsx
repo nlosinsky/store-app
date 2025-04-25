@@ -17,8 +17,10 @@ import { ErrorElement } from "./components";
 import { loader as ladingLoader } from './pages/Landing.jsx';
 import { loader as singleProductLoader } from './pages/SingleProduct.jsx';
 import { loader as productsLoader } from './pages/Products.jsx';
-import {action as registerAction} from './pages/Register.jsx';
-import {action as loginAction} from './pages/Login.jsx';
+import { action as registerAction } from './pages/Register.jsx';
+import { loader as checkoutLoader } from './pages/Checkout.jsx';
+import { action as loginAction } from './pages/Login.jsx';
+import { action as checkoutAction } from "./components/CheckoutForm.jsx";
 import store from "./store/store.js";
 
 const routes = createBrowserRouter([
@@ -31,7 +33,7 @@ const routes = createBrowserRouter([
         index: true,
         element: <Landing/>,
         loader: ladingLoader,
-        errorElement: <ErrorElement />
+        errorElement: <ErrorElement/>
       },
       {
         path: "about",
@@ -41,13 +43,13 @@ const routes = createBrowserRouter([
         path: "products",
         element: <Products/>,
         loader: productsLoader,
-        errorElement: <ErrorElement />
+        errorElement: <ErrorElement/>
       },
       {
         path: "products/:id",
         loader: singleProductLoader,
         element: <SingleProduct/>,
-        errorElement: <ErrorElement />
+        errorElement: <ErrorElement/>
       },
       {
         path: "cart",
@@ -56,6 +58,8 @@ const routes = createBrowserRouter([
       {
         path: "checkout",
         element: <Checkout/>,
+        action: checkoutAction(store),
+        loader: checkoutLoader(store),
       },
       {
         path: "orders",
@@ -78,7 +82,7 @@ const routes = createBrowserRouter([
 ])
 
 function App() {
-  return <RouterProvider router={routes} />
+  return <RouterProvider router={routes}/>
 }
 
 export default App
