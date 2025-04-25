@@ -29,7 +29,7 @@ const userSlice = createSlice({
     loginUser(state, action) {
       const user = { ...action.payload.user, token: action.payload.jwt };
       state.user = user;
-      localStorage.setItem('user', JSON.stringify(action.payload));
+      localStorage.setItem('user', JSON.stringify(user));
     },
     logoutUser(state) {
       state.user = null;
