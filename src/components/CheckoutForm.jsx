@@ -5,7 +5,7 @@ import { clearCart } from "../features/cart/cartSlice.jsx";
 import { toast } from "react-toastify";
 import { Form, redirect } from "react-router-dom";
 
-export const action = (store) => async ({ request }) => {
+export const action = (store, queryClient) => async ({ request }) => {
   const formData = await request.formData();
   const { name, address } = Object.fromEntries(formData);
   const user = store.getState().user.user;
@@ -25,6 +25,7 @@ export const action = (store) => async ({ request }) => {
         Authorization: `Bearer ${user.token}`
       }
     });
+    queryClient.removeQueries(['orders']);
     store.dispatch(clearCart());
     toast.success('Order placed successfully');
     return redirect('/orders');

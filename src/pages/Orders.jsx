@@ -3,7 +3,24 @@ import { customFetch } from "../utils/index.jsx";
 import { toast } from "react-toastify";
 import { redirect, useLoaderData } from "react-router-dom";
 
-export const loader = (store) => async ({request}) => {
+const ordersQuery  = (params, user) => {
+  const { page } = params;
+  return {
+    queryKey: [
+      'orders',
+      user.username,
+      page ? parseInt(page) : 1,
+    ],
+    queryFn: () => customFetch.get('/orders', {
+      params,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      }
+    })
+  };
+}
+
+export const loader = (store, queryClient) => async ({request}) => {
   const user = store.getState().user.user;
 
   if (!user) {
@@ -16,13 +33,7 @@ export const loader = (store) => async ({request}) => {
   ]);
 
   try {
-    const response = await customFetch.get('/orders', {
-      params,
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-
+    const response = await queryClient.ensureQueryData(ordersQuery(params, user));
     return { orders: response.data.data, meta: response.data.meta };
   } catch (error) {
     console.log(error);
