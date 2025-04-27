@@ -9,7 +9,6 @@ const featuredProductsQuery = {
 
 export const loader = (queryClient) => async () => {
   const response = await queryClient.ensureQueryData(featuredProductsQuery);
-  console.log(response);
   const products = response.data.data;
   return { products };
 }
