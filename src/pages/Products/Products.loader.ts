@@ -1,8 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
-import Filters from "../components/Filters.jsx";
-import ProductsContainer from "../components/ProductsContainer.jsx";
-import PaginationContainer from "../components/PaginationContainer.jsx";
-import { customFetch } from '../utils';
+import { customFetch } from '../../utils';
 
 const productsQuery = (params: Record<string, string>) => {
   const { search, category, company, sort, price, shipping, page } = params;
@@ -21,7 +18,7 @@ const productsQuery = (params: Record<string, string>) => {
   };
 }
 
-export const loader = (queryClient: QueryClient) => async ({ request } : {request: Request}) => {
+export const productsLoader = (queryClient: QueryClient) => async ({ request } : {request: Request}) => {
   const url = new URL(request.url);
   const params = Object.fromEntries(url.searchParams.entries());
   const response = await queryClient.ensureQueryData(productsQuery(params));
@@ -30,15 +27,3 @@ export const loader = (queryClient: QueryClient) => async ({ request } : {reques
 
   return { products, meta, params };
 }
-
-const Products = () => {
-  return (
-    <>
-      <Filters/>
-      <ProductsContainer/>
-      <PaginationContainer/>
-    </>
-  );
-};
-
-export default Products;

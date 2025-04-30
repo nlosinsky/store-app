@@ -1,7 +1,7 @@
 import { Outlet, useNavigation } from "react-router-dom";
-import { Header, Loading, Navbar } from "../components";
+import { Header, Loading, Navbar } from '../../components';
 
-const HomeLayout = () => {
+export const HomeLayout = () => {
   const state = useNavigation();
   const isLoading = state.state === "loading";
   return (
@@ -16,5 +16,3 @@ const HomeLayout = () => {
     </>
   );
 };
-
-export default HomeLayout;

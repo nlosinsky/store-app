@@ -1,12 +1,10 @@
-
 import { EnhancedStore } from '@reduxjs/toolkit';
 import { QueryClient } from '@tanstack/react-query';
-import { User } from '../models';
 import { AxiosError } from 'axios';
-import { OrdersList, ComplexPaginationContainer, SectionTitle } from "../components";
-import { toast } from "react-toastify";
-import { redirect, useLoaderData } from "react-router-dom";
-import { customFetch } from '../utils';
+import { redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { User } from '../../models';
+import { customFetch } from '../../utils';
 
 const ordersQuery  = (params: Record<string, string>, user: User) => {
   const { page } = params;
@@ -25,7 +23,7 @@ const ordersQuery  = (params: Record<string, string>, user: User) => {
   };
 }
 
-export const loader = (store: EnhancedStore, queryClient: QueryClient) => async ({request}: {request: Request}) => {
+export const ordersLoader = (store: EnhancedStore, queryClient: QueryClient) => async ({request}: {request: Request}) => {
   const user = store.getState().user.user;
 
   if (!user) {
@@ -58,21 +56,3 @@ export const loader = (store: EnhancedStore, queryClient: QueryClient) => async 
     return null;
   }
 };
-
-const Orders = () => {
-  const {meta} = useLoaderData();
-
-  if (meta.pagination.total < 1) {
-    return <SectionTitle text='Please make an order' />;
-  }
-
-  return (
-    <>
-      <SectionTitle text="Orders" />
-      <OrdersList />
-      <ComplexPaginationContainer></ComplexPaginationContainer>
-    </>
-  );
-};
-
-export default Orders;

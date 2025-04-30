@@ -1,8 +1,8 @@
-import { useAppSelector } from '../hooks';
-import { CartItemsList, CartTotals, SectionTitle } from "../components";
 import { Link } from "react-router-dom";
+import { CartItemsList, CartTotals, SectionTitle } from '../../components';
+import { useAppSelector } from '../../hooks';
 
-const Cart = () => {
+export const Cart = () => {
   const numItemsInCart = useAppSelector((store) => store.cart.numItemsInCart);
   const user = useAppSelector((store) => store.user.user);
 
@@ -30,5 +30,3 @@ const Cart = () => {
     </>
   );
 };
-
-export default Cart;

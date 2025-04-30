@@ -1,32 +1,11 @@
-import { QueryClient } from '@tanstack/react-query';
 import { type BaseSyntheticEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLoaderData } from "react-router-dom";
-import { addItem } from "../features/cart/cartSlice.jsx";
-import { type Products } from '../models';
-import { customFetch, formatPrice, generateAmountOptions } from "../utils";
+import { addItem } from '../../features/cart/cartSlice.tsx';
+import { Products } from '../../models';
+import { formatPrice, generateAmountOptions } from '../../utils';
 
-const singleProductQuery = (id: string) => {
-  return {
-    queryKey: ['singleProduct', id],
-    queryFn: () => customFetch.get(`/products/${id}`)
-  }
-}
-
-export const loader = (queryClient: QueryClient) => async ({params}: {
-  params: Record<string, string | undefined>
-}) => {
-  if (!params.id) {
-    throw new Error('No product id provided');
-  }
-
-  const response = await queryClient.ensureQueryData(singleProductQuery(params.id));
-  return {
-    product: response.data.data
-  };
-}
-
-const SingleProduct = () => {
+export const SingleProduct = () => {
   const {product} = useLoaderData<{ product: Products }>();
   const {attributes: {image, title, price, description, colors, company}} = product;
   const dollarsAmount = formatPrice(price);
@@ -133,5 +112,3 @@ const SingleProduct = () => {
     </section>
   );
 };
-
-export default SingleProduct;

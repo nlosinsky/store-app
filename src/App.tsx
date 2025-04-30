@@ -1,30 +1,29 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { checkoutFormAction, ErrorElement } from "./components";
+
 import {
   About,
   Cart,
   Checkout,
+  checkoutLoader,
   Error,
   HomeLayout,
+  ladingLoader,
   Landing,
   Login,
+  loginAction,
   Orders,
+  ordersLoader,
   Products,
+  productsLoader,
   Register,
-  SingleProduct
+  registerAction,
+  SingleProduct,
+  singleProductLoader
 } from './pages';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ErrorElement } from "./components";
-
-import { loader as ladingLoader } from './pages/Landing.jsx';
-import { loader as singleProductLoader } from './pages/SingleProduct.jsx';
-import { loader as productsLoader } from './pages/Products.jsx';
-import { action as registerAction } from './pages/Register.jsx';
-import { loader as checkoutLoader } from './pages/Checkout.jsx';
-import { loader as ordersLoader } from './pages/Orders.jsx';
-import { action as loginAction } from './pages/Login.jsx';
-import { action as checkoutAction } from "./components/CheckoutForm.jsx";
 import store from "./store/store.js";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -69,7 +68,7 @@ const routes = createBrowserRouter([
       {
         path: "checkout",
         element: <Checkout/>,
-        action: checkoutAction(store, queryClient),
+        action: checkoutFormAction(store, queryClient),
         loader: checkoutLoader(store),
       },
       {
