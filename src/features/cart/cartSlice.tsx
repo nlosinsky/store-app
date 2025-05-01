@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { CartProduct } from '../../models';
 
@@ -22,14 +22,14 @@ const initialState: CartState = {
 
 const getCartFromLocalStorage = (): CartState => {
   const localStorageCart = localStorage.getItem('cart');
-  return localStorageCart ? JSON.parse(localStorageCart) : initialState;
+  return localStorageCart ? JSON.parse(localStorageCart) as CartState : initialState;
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState: getCartFromLocalStorage(),
   reducers: {
-    addItem(state, action) {
+    addItem(state, action: PayloadAction<CartProduct>) {
       const product = action.payload;
       const existingProduct = state.cartItems.find(item => item.cartID === product.cartID);
 
@@ -40,12 +40,12 @@ const cartSlice = createSlice({
       }
 
       state.numItemsInCart += product.amount;
-      state.cartTotal += product.price * product.amount;
+      state.cartTotal += +product.price * product.amount;
 
       cartSlice.caseReducers.calculateTotals(state);
       toast.success('Item added to cart');
     },
-    removeItem(state, action) {
+    removeItem(state, action: PayloadAction<string>) {
       const cartID = action.payload;
       const product = state.cartItems.find(item => item.cartID === cartID);
       state.cartItems = state.cartItems.filter(item => item.cartID !== cartID);
@@ -62,7 +62,7 @@ const cartSlice = createSlice({
       localStorage.setItem('cart', JSON.stringify(initialState));
       return initialState;
     },
-    editItem(state, action) {
+    editItem(state, action: PayloadAction<{ cartID: string; amount: number }>) {
       const {amount, cartID} = action.payload;
       const item = state.cartItems.find(item => item.cartID === cartID);
       if (!item) {

@@ -1,5 +1,4 @@
-export type User = {
-  token: string;
+export type UserBase = {
   id: string;
   username: string;
   email: string;
@@ -9,3 +8,10 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 }
+
+export type UserResponse = {
+  user: UserBase;
+  jwt: string;
+}
+
+export type User = UserBase & { token: string };

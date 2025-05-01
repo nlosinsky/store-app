@@ -1,9 +1,10 @@
 import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
+import { Pagination } from '../models';
 
 const ComplexPaginationContainer = () => {
-  const { meta } = useLoaderData();
-  const { page, pageCount } = meta.pagination;
-  const { search, pathname } = useLocation();
+  const {meta} = useLoaderData<{ meta: Pagination }>();
+  const {page, pageCount} = meta.pagination;
+  const {search, pathname} = useLocation();
   const navigate = useNavigate();
 
   const handlePageChange = (pageNumber: number) => {
@@ -12,7 +13,7 @@ const ComplexPaginationContainer = () => {
     }
     const params = new URLSearchParams(search);
     params.set('page', pageNumber.toString());
-    navigate(`${pathname}?${params.toString()}`);
+    void navigate(`${pathname}?${params.toString()}`);
   }
 
   const addPageButton = (key: string | number, text: string, pageNumber: number) => {
@@ -20,7 +21,9 @@ const ComplexPaginationContainer = () => {
       <button
         key={key}
         className={`btn btn-xs sm:btn-md border-none join-item ${pageNumber === page ? 'bg-base-300 border-base-300' : ''}`}
-        onClick={() => handlePageChange(pageNumber)}
+        onClick={() => {
+          handlePageChange(pageNumber);
+        }}
       >
         {text}
       </button>
@@ -73,7 +76,9 @@ const ComplexPaginationContainer = () => {
       });
     }
 
-    return [...map.entries()].map(([key, value]) => {
+    type MapType = [string | number, { label: string, page: number }]
+
+    return [...map.entries()].map(([key, value]: MapType) => {
       return addPageButton(key, value.label, value.page);
     })
 

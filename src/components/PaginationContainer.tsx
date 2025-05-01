@@ -1,7 +1,8 @@
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
+import { Pagination } from '../models';
 
 const PaginationContainer = () => {
-  const { meta } = useLoaderData();
+  const { meta } = useLoaderData<{meta: Pagination}>();
   const { page, pageCount } = meta.pagination;
   const { search, pathname } = useLocation();
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const PaginationContainer = () => {
   const handlePageChange = (pageNumber: number) => {
     const params = new URLSearchParams(search);
     params.set('page', pageNumber.toString());
-    navigate(`${pathname}?${params.toString()}`);
+    void navigate(`${pathname}?${params.toString()}`);
   }
 
   if (pageCount < 2) {
@@ -23,7 +24,7 @@ const PaginationContainer = () => {
     <div className="mt-16 flex justify-end">
       <div className="join">
         <button className="btn btn-xs sm:btn-md join-item"
-                onClick={() => handlePageChange(page - 1)}
+                onClick={() => { handlePageChange(page - 1); }}
                 disabled={page === 1}
         >PREV
         </button>
@@ -34,7 +35,7 @@ const PaginationContainer = () => {
               <button
                 key={pageNumber}
                 className={`btn btn-xs sm:btn-md border-none join-item ${pageNumber === page ? 'bg-base-300 border-base-300' : ''}`}
-                onClick={() => handlePageChange(pageNumber)}
+                onClick={() => { handlePageChange(pageNumber); }}
               >
                 {pageNumber}
               </button>
@@ -42,7 +43,7 @@ const PaginationContainer = () => {
           })
         }
         <button className="btn btn-xs sm:btn-md join-item"
-                onClick={() => handlePageChange(page + 1)}
+                onClick={() => { handlePageChange(page + 1); }}
                 disabled={page === pageCount}
         >NEXT
         </button>

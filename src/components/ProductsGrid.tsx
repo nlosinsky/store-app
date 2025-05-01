@@ -1,9 +1,9 @@
 import { Link, useLoaderData } from "react-router-dom";
-import { Products } from '../models';
+import { Product } from '../models';
 import { formatPrice } from "../utils";
 
 const ProductsGrid = () => {
-  const { products } = useLoaderData<{products: Products[]}>();
+  const { products } = useLoaderData<{products: Product[]}>();
 
   return (
     <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -12,7 +12,7 @@ const ProductsGrid = () => {
           const { id, attributes: { title, price, image } } = product;
           const dollarsAmount = formatPrice(price);
           return (
-            <Link to={`/products/${id}`}
+            <Link to={`/products/${id.toString()}`}
                   key={id}
                   className="card w-full shadow-xl hover:shadow-2xl transition duration-300"
             >

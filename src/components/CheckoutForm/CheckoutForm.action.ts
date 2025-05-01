@@ -4,13 +4,16 @@ import { AxiosError } from 'axios';
 import { redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { clearCart } from '../../features/cart/cartSlice.tsx';
-import { customFetch, formatPrice } from '../../utils';
+import { RootState } from '../../store/store.ts';
+import { customFetch, formatPrice, getErrorMessage } from '../../utils';
 
-export const checkoutFormAction = (store: EnhancedStore, queryClient: QueryClient) => async ({request}: { request: Request }) => {
+export const checkoutFormAction = (store: EnhancedStore, queryClient: QueryClient) => async ({request}: {
+  request: Request
+}) => {
   const formData = await request.formData();
   const {name, address} = Object.fromEntries(formData);
-  const user = store.getState().user.user;
-  const {cartItems, orderTotal, numItemsInCart} = store.getState().cart;
+  const user = (store.getState() as RootState).user.user;
+  const {cartItems, orderTotal, numItemsInCart} = (store.getState() as RootState).cart;
   const info = {
     name,
     address,
@@ -20,26 +23,28 @@ export const checkoutFormAction = (store: EnhancedStore, queryClient: QueryClien
     numItemsInCart
   }
 
+  if (!user) {
+    return;
+  }
+
   try {
     await customFetch.post('/orders', {data: info}, {
       headers: {
         Authorization: `Bearer ${user.token}`
       }
     });
-    queryClient.removeQueries({ queryKey: ['orders'] });
+    queryClient.removeQueries({queryKey: ['orders']});
     store.dispatch(clearCart());
     toast.success('Order placed successfully');
     return redirect('/orders');
   } catch (error) {
-    console.log(error instanceof AxiosError);
-    const errorMessage =
-      error instanceof AxiosError && error?.response?.data?.error?.message
-      || 'There was an error placing your order. Please try again.';
+    const errorMessage = getErrorMessage(error, 'There was an error placing your order. Please try again.');
+
     toast.error(errorMessage);
 
     if (
       error instanceof AxiosError
-      && (error?.response?.status === 401 || error?.response?.status === 403)
+      && (error.response?.status === 401 || error.response?.status === 403)
     ) {
       return redirect('/login');
     }

@@ -3,8 +3,9 @@ import { QueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { User } from '../../models';
-import { customFetch } from '../../utils';
+import { ExtendedMeta, Order, User } from '../../models';
+import { RootState } from '../../store/store.ts';
+import { customFetch, getErrorMessage } from '../../utils';
 
 const ordersQuery  = (params: Record<string, string>, user: User) => {
   const { page } = params;
@@ -24,7 +25,7 @@ const ordersQuery  = (params: Record<string, string>, user: User) => {
 }
 
 export const ordersLoader = (store: EnhancedStore, queryClient: QueryClient) => async ({request}: {request: Request}) => {
-  const user = store.getState().user.user;
+  const user = (store.getState() as RootState).user.user;
 
   if (!user) {
     toast.warn('You must be logged in to checkout');
@@ -36,19 +37,18 @@ export const ordersLoader = (store: EnhancedStore, queryClient: QueryClient) => 
   ]);
 
   try {
-    const response = await queryClient.ensureQueryData(ordersQuery(params, user));
+    const response = await queryClient.ensureQueryData<{
+      data: { data: Order[], meta: ExtendedMeta }
+    }>(ordersQuery(params, user));
     return { orders: response.data.data, meta: response.data.meta };
   } catch (error) {
-    console.log(error);
-    const errorMessage =
-      error instanceof AxiosError && error?.response?.data?.error?.message ||
-      'please double check your credentials';
+    const errorMessage = getErrorMessage(error, 'please double check your credentials')
 
     toast.error(errorMessage);
 
     if (
       error instanceof AxiosError
-      && (error?.response?.status === 401 || error?.response?.status === 403)
+      && (error.response?.status === 401 || error.response?.status === 403)
     ) {
       return redirect('/login');
     }

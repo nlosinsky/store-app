@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { User } from '../../models';
+import { User, UserResponse } from '../../models';
 
 enum Themes {
   WINTER = 'winter',
@@ -12,17 +12,17 @@ type Theme = Themes.DRACULA | Themes.WINTER
 type UserState = {
   user: User | null;
   theme: Theme;
-};
+}
 
-const getThemeFromLocalStorage = () => {
-  const theme: Theme = localStorage.getItem('theme') as Theme || Themes.WINTER;
+const getThemeFromLocalStorage = (): Theme => {
+  const theme = localStorage.getItem('theme') ? localStorage.getItem('theme') as Theme : Themes.WINTER;
   document.documentElement.setAttribute('data-theme', theme);
   return theme;
 };
 
 const getUserFromLocalStorage = (): User | null => {
   const user = localStorage.getItem('user');
-  return user ? JSON.parse(user) : null;
+  return user ? JSON.parse(user) as User : null;
 }
 
 const initialState: UserState = {
@@ -34,7 +34,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    loginUser(state, action) {
+    loginUser(state, action: PayloadAction<UserResponse>) {
       const user = {...action.payload.user, token: action.payload.jwt};
       state.user = user;
       localStorage.setItem('user', JSON.stringify(user));

@@ -1,4 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
+import { Product } from '../../models';
 import { customFetch } from '../../utils';
 
 const singleProductQuery = (id: string) => {
@@ -15,7 +16,7 @@ export const singleProductLoader = (queryClient: QueryClient) => async ({params}
     throw new Error('No product id provided');
   }
 
-  const response = await queryClient.ensureQueryData(singleProductQuery(params.id));
+  const response = await queryClient.ensureQueryData<{data: {data: Product}}>(singleProductQuery(params.id));
   return {
     product: response.data.data
   };

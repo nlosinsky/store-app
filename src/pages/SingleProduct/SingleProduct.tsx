@@ -1,25 +1,26 @@
-import { type BaseSyntheticEvent, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLoaderData } from "react-router-dom";
 import { addItem } from '../../features/cart/cartSlice.tsx';
-import { Products } from '../../models';
+import { CartProduct, Product } from '../../models';
 import { formatPrice, generateAmountOptions } from '../../utils';
 
 export const SingleProduct = () => {
-  const {product} = useLoaderData<{ product: Products }>();
+  const {product} = useLoaderData<{ product: Product }>();
   const {attributes: {image, title, price, description, colors, company}} = product;
   const dollarsAmount = formatPrice(price);
-  const [productColor, setProductColor] = useState(colors[0]);
+  const [productColor, setProductColor] = useState(colors[0] ?? '');
   const [amount, setAmount] = useState(1);
   const dispatch = useDispatch();
 
-  const handleAmount = (e: BaseSyntheticEvent) => {
+  const handleAmount = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setAmount(parseInt(e.target.value));
   }
 
   const addToCart = () => {
-    const cartProduct = {
-      cartID: product.id + (productColor || ''),
+    const cartID = String(product.id) + productColor;
+    const cartProduct: CartProduct = {
+      cartID,
       productID: product.id,
       image,
       title,
@@ -74,10 +75,10 @@ export const SingleProduct = () => {
                     key={color}
                     type='button'
                     className={`badge  w-6 h-6 mr-2  ${
-                      color === productColor && 'border-2 border-secondary'
+                      color === productColor ? 'border-2 border-secondary' : ''
                     }`}
                     style={{backgroundColor: color}}
-                    onClick={() => setProductColor(color)}
+                    onClick={() => { setProductColor(color); }}
                   ></button>
                 );
               })}

@@ -9,7 +9,7 @@ export type CartProduct = {
   company: string;
 }
 
-export type Products = {
+export type Product = {
   id: number;
   attributes: {
     title: string;

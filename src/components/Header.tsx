@@ -11,10 +11,10 @@ const Header = () => {
   const queryClient = useQueryClient();
 
   const logout = () => {
-    navigate('/');
     dispatch(clearCart());
     dispatch(logoutUser());
     queryClient.removeQueries();
+    void navigate('/');
   }
 
   return (

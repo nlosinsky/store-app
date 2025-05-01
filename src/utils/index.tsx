@@ -27,3 +27,13 @@ export const generateAmountOptions = (number: number) => {
     );
   });
 };
+
+export const getErrorMessage = (error: unknown, defaultMessage: string) => {
+  if (axios.isAxiosError(error)) {
+    return error.message;
+  } else if (error instanceof Error) {
+    return error.message;
+  } else {
+    return defaultMessage || 'An unknown error occurred';
+  }
+}

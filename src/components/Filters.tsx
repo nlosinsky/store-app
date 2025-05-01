@@ -1,8 +1,9 @@
+import { ExtendedMeta } from '../models';
 import { FormInput, FormRange, SubmitBtn, FormSelect, FormCheckbox } from "./index.js";
 import { Form, Link, useLoaderData } from "react-router-dom";
 
 const Filters = () => {
-  const { meta, params } = useLoaderData();
+  const { meta, params } = useLoaderData<{meta: ExtendedMeta, params: Record<string, string>}>();
   const { categories, companies } = meta;
   const sortOptions = [ 'a-z', 'z-a', 'high', 'low' ];
   const { search, company, category, shipping, order, price } = params;

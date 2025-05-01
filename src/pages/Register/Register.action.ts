@@ -1,7 +1,6 @@
-import { AxiosError } from 'axios';
 import { redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { customFetch } from '../../utils';
+import { customFetch, getErrorMessage } from '../../utils';
 
 export const registerAction = async ({request}: { request: Request }) => {
   const formData = await request.formData();
@@ -13,9 +12,8 @@ export const registerAction = async ({request}: { request: Request }) => {
     toast.success("Registration successful");
     return redirect('/login');
   } catch (error) {
-    const errorMessage =
-      error instanceof AxiosError && error?.response?.data?.error?.message ||
-      'please double check your credentials';
+    const errorMessage = getErrorMessage(error, 'please double check your credentials');
+
     toast.error(errorMessage);
 
     return null;

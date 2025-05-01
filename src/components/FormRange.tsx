@@ -1,20 +1,21 @@
 import { formatPrice } from "../utils";
-import { BaseSyntheticEvent, useState } from "react";
+import { useState } from "react";
 
 type FormRangeProps = {
   label: string;
   name: string;
   size?: 'sm' | 'md' | 'lg';
-  price?: number;
+  price?: string | undefined;
 }
 
 const FormRange = ({ label, name, size, price }: FormRangeProps) => {
   const rangeSize = size ? `range-${size}` : 'range-md';
   const step = 1000;
   const maxPrice = 100000;
-  const [selectedPrice, setSelectedPrice] = useState(price || maxPrice);
+  const [selectedPrice, setSelectedPrice] = useState(price ?? maxPrice);
+  console.log(price);
 
-  const updatePrice = (e: BaseSyntheticEvent) => {
+  const updatePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = +e.target.value || 0;
 
     if (value !== selectedPrice) {
@@ -36,7 +37,7 @@ const FormRange = ({ label, name, size, price }: FormRangeProps) => {
              value={selectedPrice}
              className={`range range-primary ${rangeSize}`}
              name={name}
-             onChange={(e) => updatePrice(e)}
+             onChange={(e) => { updatePrice(e); }}
       />
       <div className="flex justify-between items-center mt-2 font-bold text-xs px-2">
         <span>0</span>

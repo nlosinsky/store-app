@@ -1,9 +1,10 @@
-import { useLoaderData } from "react-router-dom";
 import { useState } from 'react';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
+import { useLoaderData } from "react-router-dom";
+import { Pagination } from '../models';
+import ProductsGrid from "./ProductsGrid.jsx";
 
 import ProductsList from "./ProductsList.jsx";
-import ProductsGrid from "./ProductsGrid.jsx";
 
 enum LayoutStates {
   grid = 'grid',
@@ -13,7 +14,7 @@ enum LayoutStates {
 type LayoutStatesType = LayoutStates.grid | LayoutStates.list
 
 const ProductsContainer = () => {
-  const { meta } = useLoaderData();
+  const {meta} = useLoaderData<{ meta: Pagination }>();
   const [layout, setLayout] = useState(LayoutStates.grid);
   const totalProducts = meta.pagination.total || 0;
 
@@ -46,12 +47,16 @@ const ProductsContainer = () => {
 
         <div className="flex gap-x-2">
           <button className={setActiveStyles(LayoutStates.grid)}
-                  onClick={() => setLayout(LayoutStates.grid)}
+                  onClick={() => {
+                    setLayout(LayoutStates.grid);
+                  }}
           >
             <BsFillGridFill/>
           </button>
           <button className={setActiveStyles(LayoutStates.list)}
-                  onClick={() => setLayout(LayoutStates.list)}
+                  onClick={() => {
+                    setLayout(LayoutStates.list);
+                  }}
           >
             <BsList/>
           </button>

@@ -2,10 +2,9 @@ type FormInputProps = {
   label: string;
   name: string;
   type: string;
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   size?: 'sm' | 'md' | 'lg';
 }
-
 
 const FormInput = ({label, name, type, defaultValue, size}: FormInputProps) => {
   const inputSize = size ? `input-${size}` : 'input-md';

@@ -6,3 +6,8 @@ export type Pagination = {
     total: number;
   }
 }
+
+export type ExtendedMeta = Pagination & {companies: string[]; categories: string[] };
+
+//  todo add meta
+// todo check for <{ occurrences

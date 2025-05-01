@@ -1,9 +1,10 @@
 import { QueryClient } from '@tanstack/react-query';
+import { ExtendedMeta, Product } from '../../models';
 import { customFetch } from '../../utils';
 
 const productsQuery = (params: Record<string, string>) => {
-  const { search, category, company, sort, price, shipping, page } = params;
-  return  {
+  const {search, category, company, sort, price, shipping, page} = params;
+  return {
     queryKey: [
       'products',
       search ?? '',
@@ -18,12 +19,14 @@ const productsQuery = (params: Record<string, string>) => {
   };
 }
 
-export const productsLoader = (queryClient: QueryClient) => async ({ request } : {request: Request}) => {
+export const productsLoader = (queryClient: QueryClient) => async ({request}: { request: Request }) => {
   const url = new URL(request.url);
   const params = Object.fromEntries(url.searchParams.entries());
-  const response = await queryClient.ensureQueryData(productsQuery(params));
+  const response = await queryClient.ensureQueryData<{
+    data: { data: Product[], meta: ExtendedMeta }
+  }>(productsQuery(params));
   const products = response.data.data;
   const meta = response.data.meta;
 
-  return { products, meta, params };
+  return {products, meta, params};
 }

@@ -1,4 +1,3 @@
-import { BaseSyntheticEvent } from 'react';
 import { editItem, removeItem } from "../features/cart/cartSlice.jsx";
 import { useAppDispatch } from '../hooks';
 import { CartProduct } from '../models';
@@ -16,7 +15,7 @@ const CartItem = ({ cartItem }: CartItemProps) => {
     dispatch(removeItem(cartID));
   }
 
-  const handleAmount = (e: BaseSyntheticEvent) => {
+  const handleAmount = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(editItem({ cartID, amount: parseInt(e.target.value) }));
   }
 

@@ -2,7 +2,7 @@ type FormSelectProps = {
   label: string;
   size?: 'sm' | 'md' | 'lg';
   name: string;
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   options: string[];
 }
 
