@@ -25,7 +25,7 @@ const Header = () => {
             ?
             <div className="flex gap-x-2 sm:gap-x-8 items-center">
               <p className="text-xs sm:text-sm">Hello, {user.username}</p>
-              <button onClick={logout} className="btn btn-primary btn-xs btn-outline uppercase">Logout</button>
+              <button type="button" onClick={logout} className="btn btn-primary btn-xs btn-outline uppercase">Logout</button>
             </div>
             :
             <div className="flex gap-x-6 justify-center items-center">

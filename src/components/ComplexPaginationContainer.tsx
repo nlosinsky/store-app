@@ -20,6 +20,7 @@ const ComplexPaginationContainer = () => {
     return (
       <button
         key={key}
+        type="button"
         className={`btn btn-xs sm:btn-md border-none join-item ${pageNumber === page ? 'bg-base-300 border-base-300' : ''}`}
         onClick={() => {
           handlePageChange(pageNumber);

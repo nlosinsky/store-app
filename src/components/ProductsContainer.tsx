@@ -46,14 +46,16 @@ const ProductsContainer = () => {
         </h2>
 
         <div className="flex gap-x-2">
-          <button className={setActiveStyles(LayoutStates.grid)}
+          <button type="button"
+                  className={setActiveStyles(LayoutStates.grid)}
                   onClick={() => {
                     setLayout(LayoutStates.grid);
                   }}
           >
             <BsFillGridFill/>
           </button>
-          <button className={setActiveStyles(LayoutStates.list)}
+          <button type="button"
+                  className={setActiveStyles(LayoutStates.list)}
                   onClick={() => {
                     setLayout(LayoutStates.list);
                   }}

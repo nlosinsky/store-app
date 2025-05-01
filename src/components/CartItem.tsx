@@ -52,7 +52,7 @@ const CartItem = ({ cartItem }: CartItemProps) => {
             {generateAmountOptions(amount + 5)}
           </select>
         </div>
-        <button className="mt-2 link link-primary text-sm link-hover"
+        <button type="button" className="mt-2 link link-primary text-sm link-hover"
                 onClick={removeItemFromTheCart}
         >remove</button>
       </div>

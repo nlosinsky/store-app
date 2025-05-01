@@ -102,6 +102,7 @@ export const SingleProduct = () => {
           {/* CART BUTTON */}
           <div className='mt-10 '>
             <button
+              type="button"
               className='btn btn-secondary btn-md'
               onClick={addToCart}
             >
